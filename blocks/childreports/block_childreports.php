@@ -34,19 +34,19 @@ defined('MOODLE_INTERNAL') || die();
 
 class block_childreports extends block_base {
     /**
-      * Initialization function
-      *
-      *
-      */
+     * Initialization function
+     *
+     *
+     */
     public function init() {
         $this->title = get_string('childreports', 'block_childreports');
     }
 
     /**
-      * Getting and setting the content of the block
-      *
-      *
-      */
+     * Getting and setting the content of the block
+     *
+     *
+     */
     public function get_content() {
         global $CFG, $USER, $DB;
         if ($this->content !== null) {
@@ -76,10 +76,10 @@ class block_childreports extends block_base {
     }
 
     /**
-      * Function that gets called every time block settings are brought up, this is setting newly assigned title to block
-      *
-      * 
-      */
+     * Function that gets called every time block settings are brought up, this is setting newly assigned title to block
+     *
+     *
+     */
     public function specialization() {
         $this->title = isset($this->config->title) ? $this->config->title : get_string('newchildreportsblock', 'block_childreports');
     }

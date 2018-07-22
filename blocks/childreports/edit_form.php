@@ -34,10 +34,10 @@ defined('MOODLE_INTERNAL') || die();
 class block_childreports_edit_form extends block_edit_form {
 
     /**
-      * Adding our own section with title and field for users to change name of the block
-      *
-      * @param object $mform, The form.
-      */
+     * Adding our own section with title and field for users to change name of the block
+     *
+     * @param object $mform, The form.
+     */
     protected function specific_definition($mform) {
 
         // Section header title according to language file.
