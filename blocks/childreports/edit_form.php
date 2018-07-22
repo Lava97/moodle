@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -23,8 +22,22 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
+/**
+ * Form for editing Child Reports block instances.
+ *
+ * @package   block_childreports
+ * @copyright 2018 Lalit Chandwani
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class block_childreports_edit_form extends block_edit_form {
 
+    /**
+      * Adding our own section with title and field for users to change name of the block
+      *
+      * @param object $mform, The form.
+      */
     protected function specific_definition($mform) {
 
         // Section header title according to language file.

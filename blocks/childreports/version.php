@@ -22,8 +22,10 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 $plugin->component = 'block_childreports';  // Recommended since 2.0.2 (MDL-26035). Required since 3.0 (MDL-48494)
 $plugin->version = 2018071900;  // YYYYMMDDHH (year, month, day, 24-hr time)
-$plugin->requires = 2015111600; // YYYYMMDDHH (This is the release version for Moodle 3.0.2
+$plugin->requires = 2015111600; // YYYYMMDDHH (This is the release version for Moodle 3.0.2.
 $plugin->maturity = MATURITY_ALPHA;
 $plugin->release = 'v3.0-r1'; // This is the first revision for Moodle 3.0.x branch.

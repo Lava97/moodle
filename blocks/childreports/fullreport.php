@@ -25,25 +25,24 @@
 
 require_once('../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
-require_once $CFG->libdir.'/gradelib.php';
-require_once $CFG->dirroot.'/grade/lib.php';
-require_once $CFG->dirroot.'/grade/report/'.$CFG->grade_profilereport.'/lib.php';
+require_once($CFG->libdir.'/gradelib.php');
+require_once($CFG->dirroot.'/grade/lib.php');
+require_once($CFG->dirroot.'/grade/report/'.$CFG->grade_profilereport.'/lib.php');
 global $DB;
 
 require_login();
-$course = required_param('id',PARAM_INT); //Course id
-$user = required_param('user',PARAM_INT); //User id
-//$mode = optional_param('mode', "todaylogs", PARAM_ALPHA); //Grade mode
-$user = $DB->get_record("user", array("id"=>$user, 'deleted'=>0), '*', MUST_EXIST); //Updating user variable with user object
+$course = required_param('id', PARAM_INT); // Course id
+$user = required_param('user', PARAM_INT); // User id
+$user = $DB->get_record("user", array("id" => $user, 'deleted' => 0), '*', MUST_EXIST); // Updating user variable with user object.
 
-//Navbar creation
-$userurl = new moodle_url('/user/view.php', array('id' => $user->id, 'course' => $course)); //Creating url to user
+// Navbar creation
+$userurl = new moodle_url('/user/view.php', array('id' => $user->id, 'course' => $course)); // Creating url to user.
 $struser = get_string('user');
 $PAGE->navbar->add($struser);
 $PAGE->navbar->add(fullname($user), $userurl, navigation_node::TYPE_SETTING);
 $PAGE->navbar->add('Full Report of ' . fullname($user));
 
-//Setting up the page
+// Setting up the page.
 
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('report');
@@ -56,38 +55,37 @@ $PAGE->set_url($CFG->wwwroot.'/blocks/childreports/fullreport.php', array('id' =
  *
  * @param object $user The user.
  */
-function get_course_ids($user){
-  global $DB;
-  $courseids = $DB->get_records_sql("SELECT c.instanceid
-                                     FROM {course} crs, {user} u, {context} c, {role_assignments} ra, {role} r
-                                     WHERE u.id = ? AND
-                                     r.id = 5 AND
-                                     r.id = ra.roleid AND
-                                     ra.userid = u.id AND
-                                     ra.contextid = c.id AND
-                                     c.instanceid = crs.id AND
-                                     c.contextlevel = ".CONTEXT_COURSE, array($user->id));
+function get_course_ids($user) {
+    global $DB;
+    $courseids = $DB->get_records_sql("SELECT c.instanceid
+                                       FROM {course} crs, {user} u, {context} c, {role_assignments} ra, {role} r
+                                       WHERE u.id = ? AND
+                                       r.id = 5 AND
+                                       r.id = ra.roleid AND
+                                       ra.userid = u.id AND
+                                       ra.contextid = c.id AND
+                                       c.instanceid = crs.id AND
+                                       c.contextlevel = ".CONTEXT_COURSE, array($user->id));
 
-  return $courseids;
+    return $courseids;
 }
-//Retrieving array with all course ids
+// Retrieving array with all course ids.
 $courseids = get_course_ids($user);
 
-//Output starts here
+// Output starts here.
 echo $OUTPUT->header();
 
-foreach($courseids as $courseid){
-  $course = $DB->get_record('course', array('id'=>$courseid->instanceid), '*', MUST_EXIST);
-  if (empty($CFG->grade_profilereport) or !file_exists($CFG->dirroot.'/grade/report/'.$CFG->grade_profilereport.'/lib.php')) {
-    $CFG->grade_profilereport = 'user';
-  }
+foreach ($courseids as $courseid){
+    $course = $DB->get_record('course', array('id' => $courseid->instanceid), '*', MUST_EXIST);
+    if (empty($CFG->grade_profilereport) or !file_exists($CFG->dirroot . '/grade/report/' . $CFG->grade_profilereport . '/lib.php')) {
+        $CFG->grade_profilereport = 'user';
+    }
 
-  $viewasuser = true;
-  $functionname = 'grade_report_'.$CFG->grade_profilereport.'_profilereport';
-  if (function_exists($functionname)) {
-    $functionname($course, $user, $viewasuser);
-  }
+    $viewasuser = true;
+    $functionname = 'grade_report_'.$CFG->grade_profilereport.'_profilereport';
+    if (function_exists($functionname)) {
+        $functionname($course, $user, $viewasuser);
+    }
 }
 
 echo $OUTPUT->footer();
-?>
